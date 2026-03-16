@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 use base64::Engine;
 use eframe::egui;
 use futures_util::StreamExt;
@@ -727,7 +729,9 @@ impl eframe::App for App {
       ui.add_space(4.0);
     });
 
-    egui::CentralPanel::default().show(ctx, |ui| {
+    let panel_frame = egui::Frame::central_panel(&ctx.style())
+      .inner_margin(egui::Margin::same(4));
+    egui::CentralPanel::default().frame(panel_frame).show(ctx, |ui| {
       if self.files.is_empty() {
         if matches!(self.status, AppStatus::Fetching) {
           ui.centered_and_justified(|ui| {
